@@ -529,12 +529,19 @@ function toast(msg) {
 /* ----------------------------------------------------------
    11) EVENTOS GLOBALES + INICIO
    ---------------------------------------------------------- */
-$$("[data-open-form]").forEach((b) => b.addEventListener("click", () => openForm()));
-$$("[data-close-form]").forEach((b) => b.addEventListener("click", closeForm));
-$("#change-center").addEventListener("click", () => {
-  $("#chosen-center").hidden = true;
-  $("#center-field").hidden = false;
-  $("#f-center").focus();
+// Delegación: funciona aunque los botones se rendericen después y
+// sin romperse si algún elemento opcional no existe.
+document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-open-form]")) { openForm(); return; }
+  if (e.target.closest("[data-close-form]")) { closeForm(); return; }
+  if (e.target.closest("#change-center")) {
+    const banner = $("#chosen-center");
+    const field = $("#center-field");
+    if (banner) banner.hidden = true;
+    if (field) field.hidden = false;
+    const sel = $("#f-center");
+    if (sel) sel.focus();
+  }
 });
 backdrop.addEventListener("click", closeForm);
 $("#ledger-filter").addEventListener("change", renderLedger);
