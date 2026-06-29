@@ -96,7 +96,15 @@
     </div>
 
     <form id="donation-form" class="sheet-body" novalidate>
-      <div class="field">
+      <div class="chosen-center" id="chosen-center" hidden>
+        <div class="chosen-center-text">
+          <span>Estás donando a</span>
+          <strong id="chosen-center-name"></strong>
+        </div>
+        <button type="button" class="link-btn" id="change-center">Cambiar</button>
+      </div>
+
+      <div class="field" id="center-field">
         <label for="f-center">Centro de acopio</label>
         <select id="f-center" name="center" required></select>
       </div>
