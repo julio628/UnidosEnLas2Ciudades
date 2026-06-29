@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Mesa Solidaria — Comidas para Guarenas y Guatire</title>
+  <meta name="description" content="Coordina la donación de almuerzos y cenas para los centros de acopio de Guarenas y Guatire. Elige un centro, indica el tipo de comida y la cantidad." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+            <path d="M5 18c0 5 5 8 11 8s11-3 11-8H5Z" fill="currentColor"/>
+            <path d="M16 5v6M12 6v5M20 6v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>La Mesa Solidaria</strong>
+          <small>Comidas para los centros de acopio · Guarenas y Guatire</small>
+        </span>
+      </div>
+      <button class="btn btn-ghost header-cta" data-open-form>Donar comidas</button>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero wrap">
+      <p class="eyebrow">Coordinación comunitaria</p>
+      <h1 class="hero-title">Una comida más para quien<br />la está esperando.</h1>
+      <p class="hero-lede">
+        Apoyo solidario tras el terremoto. Elige un centro de acopio, indica si
+        llevas <strong>almuerzos</strong> o <strong>cenas</strong> y cuántas raciones.
+        Así evitamos que un centro reciba de más y otro se quede sin comida.
+      </p>
+      <div class="hero-summary" id="hero-summary" aria-live="polite">
+        <div class="sum-stat">
+          <span class="sum-num" data-total-meals>0</span>
+          <span class="sum-label">raciones comprometidas</span>
+        </div>
+        <div class="sum-divider" aria-hidden="true"></div>
+        <div class="sum-split">
+          <span class="chip chip-lunch"><i></i> <span data-total-lunch>0</span> almuerzos</span>
+          <span class="chip chip-dinner"><i></i> <span data-total-dinner>0</span> cenas</span>
+          <span class="chip chip-neutral"><span data-total-donors>0</span> aportes</span>
+        </div>
+      </div>
+      <p class="storage-note" id="storage-note" hidden></p>
+    </section>
+
+    <section class="board wrap" aria-label="Centros de acopio">
+      <div id="municipios"></div>
+      <button class="add-center-trigger" data-add-center>
+        <span aria-hidden="true">+</span> Registrar un centro de acopio nuevo
+      </button>
+    </section>
+
+    <section class="ledger wrap" id="registros" aria-label="Aportes registrados">
+      <div class="ledger-head">
+        <h2>Aportes registrados</h2>
+        <div class="ledger-tools">
+          <label class="filter-field">
+            <span class="sr-only">Filtrar por centro</span>
+            <select id="ledger-filter"></select>
+          </label>
+          <button class="btn btn-quiet" data-export hidden>Exportar CSV</button>
+        </div>
+      </div>
+      <div id="ledger-body"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Hecho por la comunidad, para la comunidad. Los datos se guardan en este dispositivo salvo que el coordinador active la base compartida.</p>
+    </div>
+  </footer>
+
+  <!-- Panel de donación -->
+  <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
+  <aside class="sheet" id="donation-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+    <div class="sheet-head">
+      <h2 id="sheet-title">Registrar comidas</h2>
+      <button class="icon-btn" data-close-form aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <form id="donation-form" class="sheet-body" novalidate>
+      <div class="field">
+        <label for="f-center">Centro de acopio</label>
+        <select id="f-center" name="center" required></select>
+      </div>
+
+      <fieldset class="field">
+        <legend>Tipo de comida</legend>
+        <div class="seg">
+          <label class="seg-opt">
+            <input type="radio" name="tipo" value="almuerzo" checked />
+            <span><i class="dot dot-lunch"></i> Almuerzo</span>
+          </label>
+          <label class="seg-opt">
+            <input type="radio" name="tipo" value="cena" />
+            <span><i class="dot dot-dinner"></i> Cena</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-cantidad">Cantidad de raciones</label>
+          <input id="f-cantidad" name="cantidad" type="number" inputmode="numeric" min="1" max="2000" step="1" placeholder="Ej: 25" required />
+        </div>
+        <div class="field">
+          <label for="f-fecha">Fecha de entrega</label>
+          <input id="f-fecha" name="fecha" type="date" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-donante">Tu nombre o grupo</label>
+        <input id="f-donante" name="donante" type="text" maxlength="80" placeholder="Ej: Familia Pérez / Iglesia San José" required />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-contacto">WhatsApp o teléfono <span class="opt">(opcional)</span></label>
+          <input id="f-contacto" name="contacto" type="tel" maxlength="40" placeholder="0414-000 00 00" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-nota">Nota para el centro <span class="opt">(opcional)</span></label>
+        <input id="f-nota" name="nota" type="text" maxlength="140" placeholder="Ej: Llego a las 12, comida caliente lista" />
+      </div>
+
+      <p class="form-error" id="form-error" hidden></p>
+
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-quiet" data-close-form>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Confirmar comidas</button>
+      </div>
+    </form>
+  </aside>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Plantilla de tarjeta de centro -->
+  <template id="center-card-tpl">
+    <article class="center-card">
+      <div class="cc-top">
+        <h3 class="cc-name"></h3>
+        <button class="icon-btn cc-remove" hidden aria-label="Quitar este centro">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="cc-count">
+        <span class="cc-num">0</span>
+        <span class="cc-unit">raciones comprometidas</span>
+      </div>
+      <div class="cc-bar" aria-hidden="true">
+        <span class="cc-bar-lunch"></span>
+        <span class="cc-bar-dinner"></span>
+      </div>
+      <p class="cc-split">
+        <span class="chip chip-lunch"><i></i> <span class="cc-lunch">0</span></span>
+        <span class="chip chip-dinner"><i></i> <span class="cc-dinner">0</span></span>
+      </p>
+      <button class="btn btn-primary cc-donate">Donar comidas aquí</button>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
