@@ -278,6 +278,10 @@ h1, h2, h3, .brand-text strong {
 }
 @keyframes slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popin {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
 
 .sheet-head {
   display: flex; align-items: center; justify-content: space-between;
@@ -348,6 +352,21 @@ h1, h2, h3, .brand-text strong {
     content: attr(data-label); display: block; font-size: 11px; text-transform: uppercase;
     letter-spacing: .06em; color: var(--ink-soft); font-weight: 700;
   }
+
+  /* Formulario: modal centrado y compacto (en vez del panel lateral) */
+  .sheet {
+    top: 50%; left: 50%; right: auto; bottom: auto;
+    transform: translate(-50%, -50%);
+    width: min(400px, calc(100% - 28px));
+    max-height: min(86dvh, 86vh);
+    border-radius: var(--radius);
+    overflow: hidden;
+    animation: popin .22s var(--ease);
+  }
+  .sheet-head { flex-shrink: 0; padding: 15px 18px; }
+  .sheet-head h2 { font-size: 19px; }
+  .sheet-body { padding: 16px 18px; gap: 13px; min-height: 0; }
+  .sheet-actions { position: sticky; bottom: 0; background: var(--paper); padding-bottom: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
