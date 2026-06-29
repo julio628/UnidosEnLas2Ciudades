@@ -271,10 +271,13 @@ h1, h2, h3, .brand-text strong {
   z-index: 50; animation: fade .2s var(--ease);
 }
 .sheet {
-  position: fixed; top: 0; right: 0; bottom: 0; z-index: 55;
-  width: min(440px, 100%); background: var(--paper);
+  position: fixed; top: 50%; left: 50%; z-index: 55;
+  transform: translate(-50%, -50%);
+  width: min(460px, calc(100% - 32px));
+  max-height: min(90dvh, 90vh);
+  background: var(--paper); border-radius: var(--radius); overflow: hidden;
   display: flex; flex-direction: column; box-shadow: var(--shadow-lg);
-  animation: slidein .26s var(--ease);
+  animation: popin .24s var(--ease);
 }
 @keyframes slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -285,10 +288,10 @@ h1, h2, h3, .brand-text strong {
 
 .sheet-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 22px; border-bottom: 1px solid var(--line);
+  padding: 20px 22px; border-bottom: 1px solid var(--line); flex-shrink: 0;
 }
 .sheet-head h2 { font-size: 22px; font-weight: 700; }
-.sheet-body { padding: 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
+.sheet-body { padding: 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; min-height: 0; }
 
 .field { display: flex; flex-direction: column; gap: 7px; border: 0; padding: 0; margin: 0; }
 .field > label, .field > legend {
@@ -339,7 +342,7 @@ h1, h2, h3, .brand-text strong {
 }
 .sheet-actions {
   display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px;
-  padding-top: 8px;
+  padding-top: 10px; position: sticky; bottom: 0; background: var(--paper);
 }
 
 /* ---------- Toast ---------- */
@@ -370,20 +373,11 @@ h1, h2, h3, .brand-text strong {
     letter-spacing: .06em; color: var(--ink-soft); font-weight: 700;
   }
 
-  /* Formulario: modal centrado y compacto (en vez del panel lateral) */
-  .sheet {
-    top: 50%; left: 50%; right: auto; bottom: auto;
-    transform: translate(-50%, -50%);
-    width: min(400px, calc(100% - 28px));
-    max-height: min(86dvh, 86vh);
-    border-radius: var(--radius);
-    overflow: hidden;
-    animation: popin .22s var(--ease);
-  }
-  .sheet-head { flex-shrink: 0; padding: 15px 18px; }
+  /* Formulario más compacto en móvil (ya viene centrado desde la base) */
+  .sheet { width: min(420px, calc(100% - 24px)); max-height: min(88dvh, 88vh); }
+  .sheet-head { padding: 15px 18px; }
   .sheet-head h2 { font-size: 19px; }
-  .sheet-body { padding: 16px 18px; gap: 13px; min-height: 0; }
-  .sheet-actions { position: sticky; bottom: 0; background: var(--paper); padding-bottom: 2px; }
+  .sheet-body { padding: 16px 18px; gap: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
