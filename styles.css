@@ -302,6 +302,23 @@ h1, h2, h3, .brand-text strong {
 .field input:focus, .field select:focus { border-color: var(--pine); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
+.chosen-center {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--pine-soft); border: 1px solid #cfe3dc;
+  border-radius: var(--radius-sm); padding: 12px 14px;
+}
+.chosen-center-text { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.chosen-center-text span {
+  font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--pine); font-weight: 700;
+}
+.chosen-center-text strong { font-size: 16px; color: var(--ink); }
+.link-btn {
+  background: none; border: 0; color: var(--pine); font: inherit; font-weight: 700;
+  cursor: pointer; text-decoration: underline; padding: 4px; flex-shrink: 0;
+}
+.link-btn:hover { color: var(--pine-deep); }
+
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .seg-opt { position: relative; }
 .seg-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
