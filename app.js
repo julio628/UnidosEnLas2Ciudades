@@ -355,17 +355,30 @@ let lastFocused = null;
 
 function fillCenterSelect() {
   const sel = $("#f-center");
-  sel.innerHTML = centers
-    .slice()
-    .sort((a, b) => (a.municipio + a.nombre).localeCompare(b.municipio + b.nombre))
-    .map((c) => `<option value="${c.id}">${escapeHtml(c.municipio)} — ${escapeHtml(c.nombre)}</option>`)
-    .join("");
+  sel.innerHTML =
+    `<option value="" selected disabled>— Elige un centro —</option>` +
+    centers
+      .slice()
+      .sort((a, b) => (a.municipio + a.nombre).localeCompare(b.municipio + b.nombre))
+      .map((c) => `<option value="${c.id}">${escapeHtml(c.municipio)} — ${escapeHtml(c.nombre)}</option>`)
+      .join("");
 }
 
 function openForm(centerId) {
   lastFocused = document.activeElement;
   fillCenterSelect();
-  if (centerId) $("#f-center").value = centerId;
+  const banner = $("#chosen-center");
+  const field = $("#center-field");
+  if (centerId) {
+    $("#f-center").value = centerId;
+    const c = centers.find((x) => x.id === centerId);
+    $("#chosen-center-name").textContent = c ? `${c.municipio} — ${c.nombre}` : "";
+    banner.hidden = false;
+    field.hidden = true;
+  } else {
+    banner.hidden = true;
+    field.hidden = false;
+  }
   if (!$("#f-fecha").value) $("#f-fecha").value = todayISO();
   $("#form-error").hidden = true;
   backdrop.hidden = false;
@@ -518,6 +531,11 @@ function toast(msg) {
    ---------------------------------------------------------- */
 $$("[data-open-form]").forEach((b) => b.addEventListener("click", () => openForm()));
 $$("[data-close-form]").forEach((b) => b.addEventListener("click", closeForm));
+$("#change-center").addEventListener("click", () => {
+  $("#chosen-center").hidden = true;
+  $("#center-field").hidden = false;
+  $("#f-center").focus();
+});
 backdrop.addEventListener("click", closeForm);
 $("#ledger-filter").addEventListener("change", renderLedger);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden) closeForm(); });
